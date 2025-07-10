@@ -6,11 +6,11 @@ import Repositorio from './pages/Repositorio';
 
 export default function AppRoutes() {
     return(
- <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/repositorio/:repositorio" element={<Repositorio />} />
-      </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/repositorio/:nomeRepositorio" element={<Repositorio />} />
+        </Routes>
+      </BrowserRouter>
     )
 }
