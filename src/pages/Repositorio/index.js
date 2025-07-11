@@ -10,6 +10,7 @@ export default function Repositorio(){
     const [issues, setIssues] = useState([]);
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
+    const [status, setStatus] = useState('open');
 
     const { nomeRepositorio } = useParams();
     const nomeRepo = decodeURIComponent(nomeRepositorio);
@@ -41,7 +42,7 @@ export default function Repositorio(){
 
             const response = await api.get(`/repos/${nomeRepo}/issues`, {
                 params:{
-                    state: 'open',
+                    state: status,
                     page: page,
                     per_page: 5
                 }
@@ -52,11 +53,14 @@ export default function Repositorio(){
 
         loadIssue();
 
-    }, [nomeRepo, page]);
+    }, [nomeRepo, page, status]);
+
+    function handleStatus(status) {
+        setStatus(status);
+    }
 
     function handlePage(action) {
         setPage(action === 'back' ? page -1 : page + 1);
-
     }
 
     if(loading) {
@@ -77,6 +81,25 @@ export default function Repositorio(){
                 <h1>{repositorio.name}</h1>
                 <p>{repositorio.description}</p>
             </Owner>
+
+            <PageActions>
+                <button 
+                type='button' 
+                onClick={() => handleStatus('closed')}
+                >Fechadas
+
+                </button>
+
+                <button 
+                type='button' 
+                onClick={() => handleStatus('open')}>Abertas
+                </button>
+
+                <button 
+                type='button' 
+                onClick={() => handleStatus('all')}>Todas
+                </button>
+            </PageActions>
 
             <IssuesList>
                 {issues.map(issue => (
